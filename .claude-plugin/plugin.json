@@ -5,9 +5,11 @@
   },
   "description": "Choose which deferred tools (built-in and MCP) are loaded up front instead of waiting behind ToolSearch",
   "displayName": "delay-no-more",
+  "homepage": "https://github.com/ruihe774/cc-delay-no-more",
   "keywords": ["tools", "deferred", "tool-search", "mcp", "mod", "hooks"],
   "license": "Unlicense",
   "name": "delay-no-more",
+  "repository": "https://github.com/ruihe774/cc-delay-no-more",
   "userConfig": {
     "tools": {
       "default": "",
