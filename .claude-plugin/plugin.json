@@ -1,0 +1,20 @@
+{
+  "author": {
+    "email": "ruihe774@outlook.com",
+    "name": "Rui He"
+  },
+  "description": "Choose which deferred tools (built-in and MCP) are loaded up front instead of waiting behind ToolSearch",
+  "displayName": "delay-no-more",
+  "keywords": ["tools", "deferred", "tool-search", "mcp", "mod", "hooks"],
+  "license": "Unlicense",
+  "name": "delay-no-more",
+  "userConfig": {
+    "tools": {
+      "default": "",
+      "description": "Tools to keep out of ToolSearch, so their schemas are in the prompt from the first turn. Separate with commas or spaces. `*` matches any characters, e.g. WebSearch, mcp__github__*. Names that match nothing are ignored. Takes effect for new sessions.",
+      "title": "Tools to load up front",
+      "type": "string"
+    }
+  },
+  "version": "0.1.0"
+}
