@@ -1,6 +1,6 @@
 # delay-no-more
 
-A Claude Mod that lets you choose which tools Claude Code does **not** defer. By default many built-in tools and all MCP tools sit behind ToolSearch, so Claude must spend a turn fetching a schema before first use. Tools you list here have their schemas in the prompt from the first turn.
+A Claude Mod that lets you choose which tools Claude Code defers behind ToolSearch and which it does not. By default many built-in tools and all MCP tools sit behind ToolSearch, so Claude must spend a turn fetching a schema before first use. Tools you list in `eager` have their schemas in the prompt from the first turn. Tools you list in `defer` go the other way: their schemas stay out of the prompt until Claude asks for them.
 
 ## Installation
 
@@ -31,7 +31,12 @@ claude --plugin-dir /path/to/delay-no-more
 
 ## Configuration
 
-One option, `eager`: tool names separated by commas or spaces. `*` matches any characters. Names that match nothing are ignored. Empty (the default) changes nothing, and the hook is not registered.
+Two options, each a list of tool names separated by commas or spaces. `*` matches any characters. Names that match nothing are ignored.
+
+- `eager`: tools to load up front, taking them out from behind ToolSearch.
+- `defer`: tools to put behind ToolSearch, so their schemas load only when Claude asks for them. Use it to trim prompt tokens, e.g. a built-in tool you rarely use, or a wildcard `eager` pattern with a few exceptions.
+
+If a tool matches both lists, `eager` wins. Tools matching neither are left as Claude Code places them. Both empty (the default) changes nothing, and the hook is not registered.
 
 The older name `tools` still works and is merged with `eager`. Prefer `eager` in new configuration.
 
@@ -41,7 +46,10 @@ Set it in your Claude Code settings under `pluginConfigs`, keyed by the plugin i
 {
   "pluginConfigs": {
     "delay-no-more@anthropic-plugin-directory": {
-      "options": { "eager": "WebSearch, WebFetch, mcp__github__*" }
+      "options": {
+        "eager": "WebSearch, WebFetch, mcp__github__*",
+        "defer": "mcp__github__create_repository"
+      }
     }
   }
 }
@@ -53,7 +61,10 @@ When loaded locally with `--plugin-dir`, use `delay-no-more@inline` as the key i
 {
   "pluginConfigs": {
     "delay-no-more@inline": {
-      "options": { "eager": "WebSearch, WebFetch, mcp__github__*" }
+      "options": {
+        "eager": "WebSearch, WebFetch, mcp__github__*",
+        "defer": "mcp__github__create_repository"
+      }
     }
   }
 }
@@ -65,11 +76,11 @@ MCP tool names are `mcp__<server>__<tool>` with the server name as configured (h
 
 ## Trade-off
 
-Every listed tool's schema costs prompt tokens on every request. List the tools you use constantly, not whole servers with dozens of tools.
+Every `eager` tool's schema costs prompt tokens on every request. List the tools you use constantly, not whole servers with dozens of tools. `defer` is the opposite trade: it saves prompt tokens, but Claude needs an extra ToolSearch turn before first use.
 
 ## How it works
 
-A `tool.describe` hook moves each matching deferred tool into the prompt's tool list (`isDeferred: false`). Other tools are untouched.
+A `tool.describe` hook moves each deferred tool matching `eager` into the prompt's tool list (`isDeferred: false`), and each non-deferred tool matching `defer` behind ToolSearch (`isDeferred: true`). Other tools are untouched.
 
 ## What it runs, sends, and fetches
 
