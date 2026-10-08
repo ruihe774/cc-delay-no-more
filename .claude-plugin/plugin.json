@@ -11,6 +11,12 @@
   "name": "delay-no-more",
   "repository": "https://github.com/ruihe774/cc-delay-no-more",
   "userConfig": {
+    "defer": {
+      "default": "",
+      "description": "Tools to put behind ToolSearch, so their schemas load only when the model asks for them. Same syntax as the tools option; a tool matching both is loaded up front. Names that match nothing are ignored. Takes effect for new sessions.",
+      "title": "Tools to defer",
+      "type": "string"
+    },
     "tools": {
       "default": "",
       "description": "Tools to keep out of ToolSearch, so their schemas are in the prompt from the first turn. Separate with commas or spaces. `*` matches any characters, e.g. WebSearch, mcp__github__*. Names that match nothing are ignored. Takes effect for new sessions.",
