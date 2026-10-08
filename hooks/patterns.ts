@@ -1,4 +1,4 @@
-// Parses the `tools` option into patterns and matches tool names against them.
+// Parses the `eager` and `defer` options into patterns and matches tool names against them.
 // A pattern is a tool name, or a name with `*` wildcards (`mcp__github__*`).
 // Patterns are separated by commas or whitespace.
 

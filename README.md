@@ -31,7 +31,9 @@ claude --plugin-dir /path/to/delay-no-more
 
 ## Configuration
 
-One option, `tools`: tool names separated by commas or spaces. `*` matches any characters. Names that match nothing are ignored. Empty (the default) changes nothing, and the hook is not registered.
+One option, `eager`: tool names separated by commas or spaces. `*` matches any characters. Names that match nothing are ignored. Empty (the default) changes nothing, and the hook is not registered.
+
+The older name `tools` still works and is merged with `eager`. Prefer `eager` in new configuration.
 
 Set it in your Claude Code settings under `pluginConfigs`, keyed by the plugin id:
 
@@ -39,7 +41,7 @@ Set it in your Claude Code settings under `pluginConfigs`, keyed by the plugin i
 {
   "pluginConfigs": {
     "delay-no-more@anthropic-plugin-directory": {
-      "options": { "tools": "WebSearch, WebFetch, mcp__github__*" }
+      "options": { "eager": "WebSearch, WebFetch, mcp__github__*" }
     }
   }
 }
@@ -51,7 +53,7 @@ When loaded locally with `--plugin-dir`, use `delay-no-more@inline` as the key i
 {
   "pluginConfigs": {
     "delay-no-more@inline": {
-      "options": { "tools": "WebSearch, WebFetch, mcp__github__*" }
+      "options": { "eager": "WebSearch, WebFetch, mcp__github__*" }
     }
   }
 }

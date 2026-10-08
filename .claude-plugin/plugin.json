@@ -13,14 +13,20 @@
   "userConfig": {
     "defer": {
       "default": "",
-      "description": "Tools to put behind ToolSearch, so their schemas load only when the model asks for them. Same syntax as the tools option; a tool matching both is loaded up front. Names that match nothing are ignored. Takes effect for new sessions.",
+      "description": "Tools to put behind ToolSearch, so their schemas load only when the model asks for them. Same syntax as the eager option; a tool matching both is loaded up front. Names that match nothing are ignored. Takes effect for new sessions.",
       "title": "Tools to defer",
+      "type": "string"
+    },
+    "eager": {
+      "default": "",
+      "description": "Tools to keep out of ToolSearch, so their schemas are in the prompt from the first turn. Separate with commas or spaces. `*` matches any characters, e.g. WebSearch, mcp__github__*. Names that match nothing are ignored. Takes effect for new sessions.",
+      "title": "Tools to load up front",
       "type": "string"
     },
     "tools": {
       "default": "",
-      "description": "Tools to keep out of ToolSearch, so their schemas are in the prompt from the first turn. Separate with commas or spaces. `*` matches any characters, e.g. WebSearch, mcp__github__*. Names that match nothing are ignored. Takes effect for new sessions.",
-      "title": "Tools to load up front",
+      "description": "Legacy name for eager, still honored. Tools listed here are added to those in eager. Prefer eager in new configuration.",
+      "title": "Tools to load up front (legacy)",
       "type": "string"
     }
   },

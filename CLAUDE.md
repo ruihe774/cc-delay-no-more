@@ -4,7 +4,7 @@ A Claude Mod (v2.1.287+) that makes it configurable which tools are *not* deferr
 
 ## Layout
 
-- `.claude-plugin/plugin.json`: manifest; `userConfig.tools` is the only knob
+- `.claude-plugin/plugin.json`: manifest; `userConfig.eager` is the knob (`tools` is a legacy alias, merged in)
 - `hooks/hooks.json`: `modules` points to `./register.ts`
 - `hooks/register.ts`: the `tool.describe` hook
 - `hooks/patterns.ts`: `parsePatterns` / `matchesAny`, pure (unit tested)
@@ -14,9 +14,9 @@ A Claude Mod (v2.1.287+) that makes it configurable which tools are *not* deferr
 
 ## Behavior
 
-- `tools` is a list of tool names (`WebSearch`, `mcp__server__tool`), separated by commas/whitespace, `*` wildcard.
+- `eager` (legacy alias `tools`, merged) is a list of tool names (`WebSearch`, `mcp__server__tool`), separated by commas/whitespace, `*` wildcard.
 - `tool.describe` fires once per tool when the engine first renders its schema; for a tool that is deferred and matches, the result becomes `{ ...(await next(e)), isDeferred: false }`. Everything else passes through.
-- Empty list: the hook is not registered.
+- Empty lists: the hook is not registered.
 
 ## Spike findings (2.1.287+)
 
@@ -30,7 +30,7 @@ A Claude Mod (v2.1.287+) that makes it configurable which tools are *not* deferr
 1. `claude plugin validate .` and `claude plugin test`
 2. Typecheck: `npx -p typescript tsc -p .` (TS5097 on `.ts` imports is expected)
 3. End to end, with the `CLAUDE*`/`AI_AGENT` env vars unset:
-   `claude --model haiku --plugin-dir . --settings '{"pluginConfigs":{"delay-no-more@inline":{"options":{"tools":"WebSearch"}}}}' -p "List the tools you can call without ToolSearch" </dev/null`
+   `FORCE_PROMPT_CACHING_5M=1 MAX_THINKING_TOKENS=0 CLAUDE_CODE_DISABLE_CLAUDE_MDS=1 claude --model claude-haiku-4-5 --max-turns 1 --plugin-dir . --settings '{"pluginConfigs":{"delay-no-more@inline":{"options":{"eager":"WebSearch"}}}}' -p "List the tools you can call without ToolSearch" </dev/null`
 
 ## Docs (downloaded; consult before changing APIs)
 
